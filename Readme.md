@@ -9,6 +9,9 @@
 - log into aws using aws cli using cli user i created in IAM in console, didnt undersand sso login
 - set up budget
 - now try to push image to s3 bucket
+- thining about creating an express server on ec2 to create an api to check the file siyen and the npush to soruce s3 but serverless would be cheaper with chaning loads 
+- lambda and gatewaty api have spaclimtis that are to low for 100mb files
+- i am looking for an google cloud run alternative, fargate seems similar but does not have a free tier
 
 
 

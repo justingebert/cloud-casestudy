@@ -17,4 +17,16 @@ tags = {
 } */
 
 
+resource "aws_s3_bucket" "dest_bucket" {
+  bucket = "jg-dest-bucket"
+
+tags = {
+    Name        = "Destiantionbucket"
+    Environment = "Dev"
+  }
+
+}
+
+
+
 
