@@ -1,83 +1,63 @@
-#role setup for lambda
-resource "aws_iam_role" "lambda_exec_role" {
-  name = "lambda_exec_role"
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Action = "sts:AssumeRole",
-      Effect = "Allow",
-      Principal = {
-        Service = "lambda.amazonaws.com",
-      },
-    }],
-  })
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
 
-resource "aws_iam_policy" "lambda_policy" {
-  name        = "lambda_policy"
-  description = "IAM policy for logging from a lambda"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "s3:GetObject",
-        ],
-        Resource = "*",
-        Effect   = "Allow",
-      },
-    ],
-  })
+resource "aws_iam_role" "iam_for_lambda" {
+  name               = "iam_for_lambda"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role       = aws_iam_role.lambda_exec_role.name
-  policy_arn = aws_iam_policy.lambda_policy.arn
+data "archive_file" "lambda" {
+  source_file = "${path.module}/../src/lambda.js"
+  /* source_dir  = "${path.module}/../src/lambda/" */
+  output_path = "${path.module}/lambda/lambda.zip"
+  type        = "zip"
 }
 
+resource "aws_lambda_function" "image_lambda" {
+  # If the file is not in the current working directory you will need to include a
+  # path.module in the filename.
+  filename      = "${path.module}/lambda/lambda.zip"
+  function_name = "processImage"
+  role          = aws_iam_role.iam_for_lambda.arn
+  handler       = "lambda.handler"
 
-#lambda function
-resource "aws_lambda_function" "image_resizer" {
-  function_name = "ImageResizer"
-  filename      = "./lambdaFunctions/image_resizer.zip"
-  handler       = "transcoder.resizeIamge"
-  runtime       = "nodejs14.x"
-  role          = aws_iam_role.lambda_exec_role.arn
+  source_code_hash = data.archive_file.lambda.output_base64sha256
 
-  source_code_hash = filebase64sha256("./lambdaFunctions/image_resizer.zip")
-
-
-  // Adjust!!
-  memory_size = 128
-  timeout     = 10
+  runtime = "nodejs18.x"
 
   environment {
     variables = {
-      // configure Environment variables e.g buckets and envrioments
+      foo = "bar"
     }
   }
 }
 
-#lambda trigger
-resource "aws_lambda_permission" "allow_bucket" {
-  statement_id  = "AllowExecutionFromS3Bucket"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.image_resizer.function_name
-  principal     = "s3.amazonaws.com"
-  source_arn    = aws_s3_bucket.upload_bucket.arn
-}
-
+#event trigger
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  bucket = aws_s3_bucket.upload_bucket.id
+  bucket = aws_s3_bucket.source_bucket.id
 
   lambda_function {
-    lambda_function_arn = aws_lambda_function.image_resizer.arn
+    lambda_function_arn = aws_lambda_function.s3_processor.arn
     events              = ["s3:ObjectCreated:*"]
+/*     filter_prefix       = "uploads/"
+    filter_suffix       = ".jpg"  */   
   }
 }
 
+resource "aws_lambda_permission" "allow_s3_invocation" {
+  statement_id  = "AllowExecutionFromS3Bucket"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.image_lambda.processImage
+  principal     = "s3.amazonaws.com"
+  source_arn    = aws_s3_bucket.source_bucket.arn
+}

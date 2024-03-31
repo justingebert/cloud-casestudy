@@ -17,3 +17,5 @@ TODO:
 
 - [ ] read s3 bucket names
 - [ ] migrate terraform to cloud
+- [ ] create a lambda function to resize image
+- [ ] change lambda permissions
