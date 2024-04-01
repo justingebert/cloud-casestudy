@@ -13,6 +13,10 @@
 
 - use local zip for lambda -> later maybe also s3?
 
+- had issues using terraform on laptop -> imported
+- crreated terraform cloud project -> cli -> remote execution
+- add logging premission to lambda
+
 TODO:
 
 - [ ] read s3 bucket names
