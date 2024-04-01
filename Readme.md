@@ -16,6 +16,10 @@
 - had issues using terraform on laptop -> imported
 - crreated terraform cloud project -> cli -> remote execution
 - add logging premission to lambda
+- had a problem using shrap with lambda -> found that they adressed it in their documentation -> npm install --arch=x64 --platform=linux sharp (not optimal solution)
+
+
+
 
 TODO:
 
@@ -23,3 +27,4 @@ TODO:
 - [ ] migrate terraform to cloud
 - [ ] create a lambda function to resize image
 - [ ] change lambda permissions
+- [ ] transcoder lambda using sharp: To get the best performance select the largest memory available. A 1536 MB function provides ~12x more CPU time than a 128 MB function.
