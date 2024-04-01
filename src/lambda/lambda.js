@@ -10,6 +10,8 @@ exports.handler = async (event) => {
 
   const sizes = [2048, 1024]; 
 
+  console.log(`Image ${key} from bucket ${sourceBucket} triggered the Lambda function`);
+
   try {
     const originalImage = await s3.getObject({ Bucket: sourceBucket, Key: key }).promise();
 

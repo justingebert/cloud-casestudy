@@ -18,10 +18,11 @@ resource "aws_lambda_function" "image_lambda" {
   runtime = "nodejs20.x"
 
   architectures = ["x86_64"]
+  timeout     = 15
 
   environment {
     variables = {
-      DEST_BUCKET = aws_s3_bucket.dest_bucket.arn
+      DEST_BUCKET = aws_s3_bucket.dest_bucket.bucket
     }
   }
 }

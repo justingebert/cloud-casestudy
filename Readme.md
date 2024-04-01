@@ -16,7 +16,7 @@
 - had issues using terraform on laptop -> imported
 - crreated terraform cloud project -> cli -> remote execution
 - add logging premission to lambda
-- had a problem using shrap with lambda -> found that they adressed it in their documentation -> npm install --arch=x64 --platform=linux sharp (not optimal solution)
+- had a problem using shrap with lambda -> found that they adressed it in their documentation -> npm install --arch=x64 --platform=linux sharp (not optimal solution) -> didnt work -> npm install --platform=linux --arch=x64 sharp@0.32.6 -> worked
 
 
 
