@@ -18,3 +18,8 @@ terraform {
 provider "aws" {
   region = "eu-north-1"
 }
+
+provider "aws" {
+  alias  = "apprunner"
+  region = "eu-central-1"
+}

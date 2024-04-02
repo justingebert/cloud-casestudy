@@ -17,6 +17,8 @@
 - had a problem using shrap with lambda -> found that they adressed it in their documentation -> npm install --arch=x64 --platform=linux sharp (not optimal solution) -> didnt work -> npm install --platform=linux --arch=x64 sharp@0.32.6 -> worked
 - confused about tf envirometns/workspaces -> should use them to have different states for different enviroments
 - create express server with docker and test locally
+- decided to sue apprunner -> easy to use
+- issues with aws sdk credentiasl in container
 
 # thoughts:
 
@@ -33,6 +35,7 @@ TODO:
 - [ ] transcoder lambda using sharp: To get the best performance select the largest memory available. A 1536 MB function provides ~12x more CPU time than a 128 MB function.
 - [ ] create a express server to upload files to s3
 - [ ] set varaibles for image type and size so api and terrform get them from the same place
+- [ ] look into pre signed urls for s3
 
 TODO PDF:
 
