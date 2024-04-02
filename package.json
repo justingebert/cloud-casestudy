@@ -6,11 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "keywords": [],
   "author": "justin",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1588.0",
+    "express": "^4.19.2",
+    "file-type": "^19.0.0"
+  },
+  "devDependencies": {
     "sharp": "^0.33.3"
   }
 }

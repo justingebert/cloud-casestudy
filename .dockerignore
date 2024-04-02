@@ -1,0 +1,9 @@
+/img
+/infrastucture
+/src/lambda/
+/src/local/
+
+Dockerfile
+.dockerignore
+.git
+.gitignore
