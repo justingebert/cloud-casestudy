@@ -24,6 +24,7 @@
 - credentials are not working in apprunner, it worked with hardcoding them into the image but thats not safe
 - looked into terraform workspaces with terraform cloud and cli, not sure how to use them
 - refractor terraform to modules and add variables
+- when destroying s3 the names are not available for a while, very annoying
 
 # thoughts:
 

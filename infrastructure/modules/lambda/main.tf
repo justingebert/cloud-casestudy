@@ -3,7 +3,7 @@ data "archive_file" "lambda" {
   source_dir  = var.source_dir
   output_path = "${var.output_path}/lambda.zip"
   type        = "zip"
-}
+} 
 
 resource "aws_lambda_function" "image_lambda" {
   filename      = var.filename
@@ -17,7 +17,6 @@ resource "aws_lambda_function" "image_lambda" {
 
   architectures = var.architecture
   timeout     = var.timeout
-
   environment {
     variables = var.environment_variables
   }
@@ -29,6 +28,13 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
   lambda_function {
     lambda_function_arn = aws_lambda_function.image_lambda.arn
     events              = ["s3:ObjectCreated:*"]
+    filter_suffix = ".jpg"
+  }
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.image_lambda.arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_suffix       = ".png"
   }
 
   depends_on = [aws_lambda_permission.allow_s3_invocation]

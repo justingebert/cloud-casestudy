@@ -1,7 +1,7 @@
-const AWS = require('aws-sdk');
-const fs = require('fs');
+import AWS from 'aws-sdk';
+import fs from 'fs';
 
-// Set the region and access keys
+
 AWS.config.update({
     region: 'eu-central-1',
 });
@@ -9,9 +9,9 @@ AWS.config.update({
 const s3 = new AWS.S3();
 
 const params = {
-    Bucket: 'jg-source-bucket-rb',
+    Bucket: 'jg-source-bucket-2',
     Key: 'redbulllogo.png',
-    Body: fs.createReadStream('../img/Red-Bull-logo.png')
+    Body: fs.createReadStream('../../img/Red-Bull-logo.png')
 };
 
 s3.upload(params, (err, data) => {
