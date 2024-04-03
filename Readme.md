@@ -39,7 +39,7 @@ TODO:
 - [X] create a lambda function to resize image
 - [X] change lambda permissions
 - [ ] transcoder lambda using sharp: To get the best performance select the largest memory available. A 1536 MB function provides ~12x more CPU time than a 128 MB function.
-- [ ] create a express server to upload files to s3
+- [X] create a express server to upload files to s3
 - [ ] set varaibles for image type and size so api and terrform get them from the same place
 - [ ] look into pre signed urls for s3
 
@@ -52,14 +52,14 @@ TODO PDF:
 - [X] The solution shall be implemented using state-of-the-art cloud patterns and development patterns (i.e. applying infrastructure as code)
 - [X] The solution shall be implemented on our cloud provider AWS
 - [X] The solution shall log image transcoding issues to ease operations.
-- [ ] The solution shall be configurable in terms of image sizes, S3 buckets, etc
-- [ ] The solution shall be capable of handling images of up to 100 MB each
-- [ ] The solution shall be capable of transcoding JPEG and PNG images only
-- [ ] The solution shall be highly scalable to handle peak demands
-- [ ] The solution shall not produce high costs if it isn’t in use. Ideally there are no costs if not in use
-- [ ] The solution shall be easily reproducible to setup other environments (like STAGING, QA,
+- [X] The solution shall be configurable in terms of image sizes, S3 buckets, etc
+- [X] The solution shall be capable of handling images of up to 100 MB each
+- [X] The solution shall be capable of transcoding JPEG and PNG images only
+- [X] The solution shall be highly scalable to handle peak demands
+- [X] The solution shall not produce high costs if it isn’t in use. Ideally there are no costs if not in use
+- [X] The solution shall be easily reproducible to setup other environments (like STAGING, QA,
   PRODUCTION) from scratch allowing development of new features as well as to ease
   integration with our partners.
-- [ ] The solution shall be versioned in order to all developing new features and rollbacks in case of any issues.
-- [ ] The solution shall provide a REST API endpoint a client can POST a supported image to (as
+- [X] The solution shall be versioned in order to all developing new features and rollbacks in case of any issues.
+- [] The solution shall provide a REST API endpoint a client can POST a supported image to (as
   binary payload). In case the image is too big (in terms of binary size) or having the wrong type, it shall be rejected returning a 400 BAD REQUEST response code.
