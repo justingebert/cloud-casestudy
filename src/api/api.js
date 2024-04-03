@@ -30,8 +30,6 @@ AWS.config.getCredentials(function(err) {
       // You can add more AWS operation here knowing the credentials are loaded
     }
   });
-  
-AWS.config.credentials = new AWS.ECSCredentials({ });
 
 app.post('/upload', async (req, res) => {
     if (!req.body) {
@@ -48,7 +46,7 @@ app.post('/upload', async (req, res) => {
     const fileName = `${Date.now()}.${fileTypeResult.ext}`;
 
     const params = {
-        Bucket: 'jg-source-bucket-rb', //TODO process.env.S3_BUCKET_NAME 
+        Bucket: process.env.S3_BUCKET_NAME, //'jg-source-bucket-rb'
         Key: fileName,
         Body: req.body,
         ContentType: fileTypeResult.mime

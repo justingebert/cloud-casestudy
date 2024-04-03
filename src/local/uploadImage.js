@@ -3,13 +3,13 @@ const fs = require('fs');
 
 // Set the region and access keys
 AWS.config.update({
-    region: 'eu-north-1',
+    region: 'eu-central-1',
 });
 
 const s3 = new AWS.S3();
 
 const params = {
-    Bucket: 'jg-source-bucket',
+    Bucket: 'jg-source-bucket-rb',
     Key: 'redbulllogo.png',
     Body: fs.createReadStream('../img/Red-Bull-logo.png')
 };

@@ -1,22 +1,25 @@
 //app runner role
+data "aws_iam_policy_document" "assume_role_app_runner" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = [
+        "apprunner.amazonaws.com",
+        "build.apprunner.amazonaws.com",
+        "tasks.apprunner.amazonaws.com",
+        
+      ]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
 resource "aws_iam_role" "app_runner_service_role" {
   name = "app-runner-service-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = "sts:AssumeRole",
-        Principal = {
-          Service = [
-            "tasks.apprunner.amazonaws.com",
-            "build.apprunner.amazonaws.com",
-          ]
-        },
-        Effect = "Allow",
-      },
-    ]
-  })
+  assume_role_policy = data.aws_iam_policy_document.assume_role_app_runner.json
 }
 
 resource "aws_iam_role_policy_attachment" "app_runner_access" {
@@ -63,6 +66,7 @@ resource "aws_apprunner_service" "rb_apprunner_service" {
         runtime_environment_variables = {
           AWS_SDK_LOAD_CONFIG = "1"
           AWS_NODEJS_CONNECTION_REUSE_ENABLED = "1"
+          S3_BUCKET_NAME = aws_s3_bucket.source_bucket.bucket
     }
       }
       image_identifier      = "339713147039.dkr.ecr.eu-central-1.amazonaws.com/rb-casestuy-ecr:latest"
