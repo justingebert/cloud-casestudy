@@ -22,6 +22,8 @@
 - had issues with region in apprunner -> redeployed eveything on eu-central-1 but there isserus with destroying and migrating ecr
 - roles and policies are somehow did not get destroyed
 - credentials are not working in apprunner, it worked with hardcoding them into the image but thats not safe
+- looked into terraform workspaces with terraform cloud and cli, not sure how to use them
+- refractor terraform to modules and add variables
 
 # thoughts:
 

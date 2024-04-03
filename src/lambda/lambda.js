@@ -8,7 +8,7 @@ exports.handler = async (event) => {
   const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' ')); //object read key from event
   const destinationBucket = process.env.DEST_BUCKET; //destination bucket name (set in environment variables in the Lambda resource)
 
-  const sizes = [2048, 1024]; 
+  const sizes = process.env.IMAGE_SIZES.split(',').map(size => parseInt(size, 10));
 
   console.log(`Image ${key} from bucket ${sourceBucket} triggered the Lambda function`);
 
