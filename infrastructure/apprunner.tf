@@ -8,7 +8,10 @@ resource "aws_iam_role" "app_runner_service_role" {
       {
         Action = "sts:AssumeRole",
         Principal = {
-          Service = "build.apprunner.amazonaws.com"
+          Service = [
+            "tasks.apprunner.amazonaws.com",
+            "build.apprunner.amazonaws.com",
+          ]
         },
         Effect = "Allow",
       },
@@ -23,7 +26,6 @@ resource "aws_iam_role_policy_attachment" "app_runner_access" {
 
 resource "aws_iam_policy" "app_runner_s3_access" {
   name        = "app-runner-s3-access-policy"
-  path        = "/"
   description = "Policy for App Runner service to access S3 bucket"
 
   policy = jsonencode({
@@ -36,7 +38,7 @@ resource "aws_iam_policy" "app_runner_s3_access" {
           "s3:GetObject",
           "s3:DeleteObject"
         ]
-        Resource = "arn:aws:s3:::jg-source-bucket/*"
+        Resource = "${aws_s3_bucket.source_bucket.arn}/*"
       },
     ]
   })
@@ -49,21 +51,26 @@ resource "aws_iam_role_policy_attachment" "app_runner_s3_access" {
 
 //app runner service
 resource "aws_apprunner_service" "rb_apprunner_service" {
-  provider = aws.apprunner
   service_name = "rb-casestudy-api"
 
   source_configuration {
     authentication_configuration {
-    access_role_arn = aws_iam_role.app_runner_service_role.arn
+      access_role_arn = aws_iam_role.app_runner_service_role.arn
     }
     image_repository {
       image_configuration {
         port = "3000"
+        runtime_environment_variables = {
+          AWS_SDK_LOAD_CONFIG = "1"
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED = "1"
+    }
       }
-      image_identifier      = "339713147039.dkr.ecr.eu-north-1.amazonaws.com/rb:latest"
+      image_identifier      = "339713147039.dkr.ecr.eu-central-1.amazonaws.com/rb-casestuy-ecr:latest"
       image_repository_type = "ECR"
     }
     auto_deployments_enabled = false
+
+    
 
   }
 

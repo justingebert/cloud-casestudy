@@ -19,12 +19,14 @@
 - create express server with docker and test locally
 - decided to sue apprunner -> easy to use
 - issues with aws sdk credentiasl in container
+- had issues with region in apprunner -> redeployed eveything on eu-central-1 but there isserus with destroying and migrating ecr
+- roles and policies are somehow did not get destroyed
 
 # thoughts:
 
 - use api gateway and presigned urls to upload files to s3 -> but does upload unessary files
 - store tf state in s3 with versioning -> rolling back is easy or use terraform cloud
-- automate docker buildin and pushing to ecr on git commit to main
+- automate docker buildin and pushing to ecr on git commit to main or use repo with automatic deploy enabled
 
 TODO:
 

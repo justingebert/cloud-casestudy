@@ -4,8 +4,10 @@ import { fileTypeFromBuffer } from 'file-type';
 
 
 AWS.config.update({
-    region: 'eu-north-1',
+    region: 'eu-central-1',
 });
+
+
 const s3 = new AWS.S3();
 
 const app = express();
@@ -15,6 +17,21 @@ app.use(express.raw({
     type: '*/*', // Accept any type but treat as binary
     limit: '100mb' 
 }));
+
+console.log('AWS SDK Config:', AWS.config);
+console.log('AWS Credentials:', AWS.config.credentials);
+
+AWS.config.getCredentials(function(err) {
+    if (err) {
+      console.log('Error retrieving AWS credentials', err.stack); // Log error
+    } else {
+      console.log('AWS Credentials loaded successfully'); // Success logging
+      console.log('Access Key:', AWS.config.credentials.accessKeyId);
+      // You can add more AWS operation here knowing the credentials are loaded
+    }
+  });
+  
+AWS.config.credentials = new AWS.ECSCredentials({ });
 
 app.post('/upload', async (req, res) => {
     if (!req.body) {
@@ -31,7 +48,7 @@ app.post('/upload', async (req, res) => {
     const fileName = `${Date.now()}.${fileTypeResult.ext}`;
 
     const params = {
-        Bucket: 'jg-source-bucket', //TODO process.env.S3_BUCKET_NAME 
+        Bucket: 'jg-source-bucket-rb', //TODO process.env.S3_BUCKET_NAME 
         Key: fileName,
         Body: req.body,
         ContentType: fileTypeResult.mime
