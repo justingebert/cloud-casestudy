@@ -61,5 +61,5 @@ TODO PDF:
   PRODUCTION) from scratch allowing development of new features as well as to ease
   integration with our partners.
 - [X] The solution shall be versioned in order to all developing new features and rollbacks in case of any issues.
-- [] The solution shall provide a REST API endpoint a client can POST a supported image to (as
+- [ ] The solution shall provide a REST API endpoint a client can POST a supported image to (as
   binary payload). In case the image is too big (in terms of binary size) or having the wrong type, it shall be rejected returning a 400 BAD REQUEST response code.
